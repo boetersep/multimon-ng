@@ -52,7 +52,9 @@ SOURCES += \
     fms.c \
     demod_eas.c \
     demod_morse.c \
-    demod_dumpcsv.c
+    demod_dumpcsv.c \
+    flex.c \
+    demod_flex16.c
 
 
 macx{

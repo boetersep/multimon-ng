@@ -131,6 +131,10 @@ struct demod_state {
             uint32_t pocsag_bits_processed_while_synced;
             uint32_t pocsag_bits_processed_while_not_synced;
         } pocsag;
+
+        struct l2_state_flex {
+            uint32_t flex_total_error_count;
+        } flex;
     } l2;
     union {
         struct l1_state_poc5 {
@@ -239,7 +243,13 @@ struct demod_state {
         
         struct l1_state_dumpcsv {
             uint32_t current_sequence;
-	} dumpcsv;
+        } dumpcsv;
+
+		struct l1_state_flex16 {
+			uint32_t dcd_shreg;
+			uint32_t sphase;
+			uint32_t subsamp;
+		} flex16;
 
 
 		
@@ -304,6 +314,8 @@ extern const struct demod_param demod_morse;
 
 extern const struct demod_param demod_dumpcsv;
 
+extern const struct demod_param demod_flex16;
+
 #ifndef NO_X11
 extern const struct demod_param demod_scope;
 #endif
@@ -317,7 +329,7 @@ extern const struct demod_param demod_scope;
 #define ALL_DEMOD &demod_poc5, &demod_poc12, &demod_poc24, &demod_eas, &demod_ufsk1200, &demod_clipfsk, &demod_fmsfsk, \
     &demod_afsk1200, &demod_afsk2400, &demod_afsk2400_2, &demod_afsk2400_3, &demod_hapn4800, \
     &demod_fsk9600, &demod_dtmf, &demod_zvei1, &demod_zvei2, &demod_zvei3, &demod_dzvei, \
-    &demod_pzvei, &demod_eea, &demod_eia, &demod_ccir, &demod_morse, &demod_dumpcsv SCOPE_DEMOD
+    &demod_pzvei, &demod_eea, &demod_eia, &demod_ccir, &demod_morse, &demod_dumpcsv, &demod_flex16 SCOPE_DEMOD
 
 
 /* ---------------------------------------------------------------------- */
@@ -352,6 +364,9 @@ void selcall_deinit(struct demod_state *s);
 void xdisp_terminate(int cnum);
 int xdisp_start(void);
 int xdisp_update(int cnum, float *f);
+
+void flex_init(struct demod_state *s);
+void flex_rxbit(struct demod_state *s, int input);
 
 /* ---------------------------------------------------------------------- */
 #endif /* _MULTIMON_H */
